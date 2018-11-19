@@ -3,9 +3,7 @@
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
-const intlCollectMessages  = require('./collect');
-
-const sourcePath = path.join(__dirname, '..', '..', 'src');
+const collectMessages  = require('./collect');
 
 /*
   This linter works as a compliment to the linting capabilities that are
@@ -17,7 +15,7 @@ const sourcePath = path.join(__dirname, '..', '..', 'src');
   the already extracted messages.
 */
 
-function lintIntl(aggregatedMessages) {
+function lintOnCollect(aggregatedMessages) {
   const uniqMsgs = _.uniq(aggregatedMessages, 'id');
   const duplicateIds = _.difference(aggregatedMessages, uniqMsgs).map(message => message.id);
   const violatingIds = _.uniq(duplicateIds.filter((id) => { // uniq to avoid reporting same id twice
@@ -36,5 +34,7 @@ function lintIntl(aggregatedMessages) {
   console.log(chalk`{green No problems with intl found! 🌸}`);
 }
 
-console.log(chalk`{white Linting intl messages...}`);
-intlCollectMessages(sourcePath, lintIntl);
+module.exports = function lint(sourcePath, babelConfigPath) {
+  console.log(chalk`{white Linting intl messages...}`);
+  collectMessages(sourcePath, lintOnCollect, babelConfigPath);
+};

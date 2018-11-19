@@ -5,12 +5,15 @@ const fs = require('fs');
 const path = require('path');
 const finder = require('findit');
 
-const babelConfig = {
+let babelConfig = {
   presets: ['es2015', 'stage-0', 'react'],
   plugins: ['transform-runtime', 'react-intl'],
 };
 
-module.exports = function intlCollectMessages(pathToFiles, onCollected) {
+module.exports = function collectMessages(pathToFiles, onCollected, babelConfigPath) {
+  if (babelConfigPath) {
+    babelConfig = require(babelConfigPath);
+  };
   let aggregatedMessages = [];
   const fileTraverser = finder(pathToFiles);
   fileTraverser.on('file', (file) => {

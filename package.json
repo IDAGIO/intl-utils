@@ -2,10 +2,22 @@
   "name": "intl-utils",
   "version": "0.0.1",
   "description": "Utilities for managing l10n of react apps",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "IDAGIO",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8.11.3"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "chalk": "^2.4.1",
+    "findit": "^2.0.0",
+    "lodash": "^4.17.11"
+  },
+  "bin": {
+    "intl-utils": "./src/executable.js"
+  }
 }
