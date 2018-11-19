@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// process.cwd(), path.isAbsolute()
 const { lint, extract } = require('./index');
 
 const actions = {
