@@ -15,13 +15,13 @@ module.exports = function collectMessages(pathToFiles, onCollected, babelConfigP
   let aggregatedMessages = [];
   const fileTraverser = finder(pathToFiles);
   fileTraverser.on('file', (file) => {
-    if (path.extname(file) !== '.js') {
-      return;
+    const fileExt = path.extname(file);
+    if (fileExt === '.js' || fileExt === '.jsx') {
+      const code = fs.readFileSync(file, 'utf8');
+      const transformed = babel.transform(code, babelConfig);
+      const messages = transformed.metadata['react-intl'].messages;
+      aggregatedMessages = [...aggregatedMessages, ...messages];
     }
-    const code = fs.readFileSync(file, 'utf8');
-    const transformed = babel.transform(code, babelConfig);
-    const messages = transformed.metadata['react-intl'].messages;
-    aggregatedMessages = [...aggregatedMessages, ...messages];
   });
 
   fileTraverser.on('end', () => onCollected(aggregatedMessages));
