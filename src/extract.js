@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const chalk = require('chalk');
+const finder require('findit')
 const collectMessages = require('./collect');
 
 function extractOnCollect(aggregatedMessages, targetPath) {
@@ -23,7 +24,7 @@ function extractOnCollect(aggregatedMessages, targetPath) {
 module.exports = function extract(sourcePath, targetPath, babelConfigPath) {
   console.log(chalk`{white Extracting messages to intl file...}`);
   collectMessages(
-    sourcePath,
+    finder(sourcePath),
     (aggregatedMessages) => extractOnCollect(aggregatedMessages, targetPath),
     babelConfigPath
   );

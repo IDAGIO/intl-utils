@@ -4,7 +4,8 @@
   "description": "Utilities for managing l10n of react apps",
   "main": "src/index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "test:watch": "ava --watch"
   },
   "author": "IDAGIO",
   "license": "MIT",

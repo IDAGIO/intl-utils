@@ -1,6 +1,7 @@
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
+const finder require('findit');
 const collectMessages  = require('./collect');
 
 /*
@@ -34,5 +35,5 @@ function lintOnCollect(aggregatedMessages) {
 
 module.exports = function lint(sourcePath, babelConfigPath) {
   console.log(chalk`{white Linting intl messages...}`);
-  collectMessages(sourcePath, lintOnCollect, babelConfigPath);
+  collectMessages(finder(sourcePath), lintOnCollect, babelConfigPath);
 };

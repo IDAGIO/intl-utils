@@ -1,19 +1,17 @@
 const babel = require('babel-core');
 const fs = require('fs');
 const path = require('path');
-const finder = require('findit');
 
 let babelConfig = {
   presets: ['es2015', 'stage-0', 'react'],
   plugins: ['transform-runtime', 'react-intl'],
 };
 
-module.exports = function collectMessages(pathToFiles, onCollected, babelConfigPath) {
+module.exports = function collectMessages(fileTraverser, onCollected, babelConfigPath) {
   if (babelConfigPath) {
     babelConfig = require(babelConfigPath);
   };
   let aggregatedMessages = [];
-  const fileTraverser = finder(pathToFiles);
   fileTraverser.on('file', (file) => {
     const fileExt = path.extname(file);
     if (fileExt === '.js' || fileExt === '.jsx') {
