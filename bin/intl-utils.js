@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { lint, extract } = require('./index');
+const { lint, extract } = require('../src/index');
 
 const actions = {
   lint: () => lint(process.argv[3], process.argv[4]),

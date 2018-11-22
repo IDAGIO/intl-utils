@@ -19,7 +19,7 @@
     "lodash": "^4.17.11"
   },
   "bin": {
-    "intl-utils": "./src/executable.js"
+    "intl-utils": "./bin/intl-utils.js"
   },
   "devDependencies": {
     "ava": "^0.25.0",
