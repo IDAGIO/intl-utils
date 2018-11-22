@@ -15,11 +15,11 @@ const collectMessages  = require('./collect');
 */
 
 function lintOnCollect(aggregatedMessages) {
-  const uniqMsgs = _.uniq(aggregatedMessages, 'id');
+  const uniqMsgs = _.uniqBy(aggregatedMessages, 'id');
   const duplicateIds = _.difference(aggregatedMessages, uniqMsgs).map(message => message.id);
   const violatingIds = _.uniq(duplicateIds.filter((id) => { // uniq to avoid reporting same id twice
     const allMessagesForId = aggregatedMessages.filter(message => message.id === id);
-    return _.uniq(allMessagesForId, 'defaultMessage').length > 1; // Has different messages for same Id
+    return _.uniqBy(allMessagesForId, 'defaultMessage').length > 1; // Has different messages for same Id
   }));
 
   if (violatingIds.length) {
@@ -31,9 +31,15 @@ function lintOnCollect(aggregatedMessages) {
   }
 
   console.log(chalk`{green No problems with intl found! 🌸}`);
+  process.exit(0);
 }
 
-module.exports = function lint(sourcePath, babelConfigPath) {
+function lint(sourcePath, babelConfigPath) {
   console.log(chalk`{white Linting intl messages...}`);
   collectMessages(finder(sourcePath), lintOnCollect, babelConfigPath);
+};
+
+module.exports = {
+  lint,
+  lintOnCollect,
 };

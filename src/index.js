@@ -1,4 +1,4 @@
 module.exports = {
   extract: require('./extract').extract,
-  lint: require('./lint'),
+  lint: require('./lint').lint,
 }
