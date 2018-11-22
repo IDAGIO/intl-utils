@@ -4,7 +4,7 @@ const path = require('path');
 
 let babelConfig = {
   presets: ['es2015', 'stage-0', 'react'],
-  plugins: ['transform-runtime', 'react-intl'],
+  plugins: ['react-intl'],
 };
 
 module.exports = function collectMessages(fileTraverser, onCollected, babelConfigPath) {
