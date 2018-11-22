@@ -1,7 +1,7 @@
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('lodash');
-const finder require('findit');
+const finder = require('findit');
 const collectMessages  = require('./collect');
 
 /*
