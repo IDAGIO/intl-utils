@@ -1,13 +1,14 @@
-import test from 'ava';
-import sinon from 'sinon';
-import EventEmitter from 'events';
+const assert = require('assert');
+const sinon =  require('sinon');
+const EventEmitter = require('events');
 
-import collect from '../src/collect';
+const collect = require('../src/collect');
 
 // To be mocked
-import fs from 'fs';
-import * as babel from 'babel-core';
-import path from 'path';
+const fs = require('fs');
+const readFileSyncOriginal = fs.readFileSync;
+const babel = require('babel-core');
+const path = require('path');
 
 const messagesFile1 = [
   {
@@ -38,32 +39,56 @@ const messagesFile3 = [
   }
 ];
 
-test('aggregates messages passed from file traverser', t => {
-  const onCollected = sinon.fake();
-  const fileTraverser = new EventEmitter();
-  sinon.replace(path, 'extname', () => '.js');
-  sinon.replace(fs, 'readFileSync', (messages) => messages);
-  sinon.replace(babel, 'transform', (messages) => ({
-    metadata: {
-      'react-intl': {
-        messages,
+describe('Collect', function() {
+  it('throws error if no babelConfigPath is supplied', function() {
+    assert.throws(
+      () => {
+        collect(null, null);
+      },
+      /Please pass a path to your babel config/
+    );
+  });
+
+  it('loads babelconfig and aggregates messages passed from file traverser', function() {
+    const onCollected = sinon.fake();
+    const babelTransformSpy = sinon.spy((messages) => ({
+      metadata: {
+        'react-intl': {
+          messages,
+        }
       }
-    }
-  }));
+    }));
+    const fileTraverser = new EventEmitter();
+    sinon.replace(path, 'extname', () => '.js');
+    sinon.replace(fs, 'readFileSync', (filePathOrMessages, encoding) => {
+      // We want it to work as normal for actual paths
+      if (typeof filePathOrMessages === 'string') {
+        return readFileSyncOriginal(filePathOrMessages, encoding)
+      }
+      // Fake to pass through the message objects emitted instead of paths
+      return filePathOrMessages;
+    });
+    sinon.replace(babel, 'transform', babelTransformSpy);
 
-  collect(fileTraverser, onCollected);
-  fileTraverser.emit('file', messagesFile1);
-  fileTraverser.emit('file', messagesFile2);
-  fileTraverser.emit('file', messagesFile3);
-  fileTraverser.emit('end');
+    collect(fileTraverser, onCollected, './test/.fakebabelrc');
+    fileTraverser.emit('file', messagesFile1);
+    fileTraverser.emit('file', messagesFile2);
+    fileTraverser.emit('file', messagesFile3);
+    fileTraverser.emit('end');
 
-  t.true(onCollected.calledWith([
-    ...messagesFile1,
-    ...messagesFile2,
-    ...messagesFile3
-  ]));
-});
+    assert.deepStrictEqual(babelTransformSpy.firstCall.args[1], {
+      presets: [ 'some-preset' ],
+      plugins: [ 'some-plugin', 'react-intl' ]}
+    );
 
-test.after('cleanup', t => {
-	sinon.restore();
+    assert.ok(onCollected.calledWith([
+      ...messagesFile1,
+      ...messagesFile2,
+      ...messagesFile3
+    ]));
+  });
+
+  afterEach(function() {
+    sinon.restore();
+  });
 });

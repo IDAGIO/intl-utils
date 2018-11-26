@@ -4,8 +4,8 @@
   "description": "Utilities for managing l10n of react apps",
   "main": "src/index.js",
   "scripts": {
-    "test": "ava",
-    "test:watch": "ava --watch"
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "author": "IDAGIO",
   "license": "MIT",
@@ -17,13 +17,13 @@
     "babel-plugin-react-intl": "^2.3.1",
     "chalk": "^2.4.1",
     "findit": "^2.0.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0"
   },
   "bin": {
     "intl-utils": "./bin/intl-utils.js"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
     "sinon": "^7.1.1"
   }
 }

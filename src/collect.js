@@ -2,15 +2,20 @@ const babel = require('babel-core');
 const fs = require('fs');
 const path = require('path');
 
-let babelConfig = {
-  presets: ['es2015', 'stage-0', 'react'],
-  plugins: ['react-intl'],
-};
-
 module.exports = function collectMessages(fileTraverser, onCollected, babelConfigPath) {
-  if (babelConfigPath) {
-    babelConfig = require(babelConfigPath);
-  };
+  if (!babelConfigPath) {
+    throw new Error('Please pass a path to your babel config');
+  }
+  const absolutePath = path.isAbsolute(babelConfigPath) ?
+    babelConfigPath
+    : path.join(process.cwd(), babelConfigPath);
+  const babelConfig = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
+  if (babelConfig.plugins) {
+    babelConfig.plugins.push('react-intl');
+  } else {
+    babelConfig.plugins = ['react-intl'];
+  }
+
   let aggregatedMessages = [];
   fileTraverser.on('file', (file) => {
     const fileExt = path.extname(file);
@@ -23,4 +28,5 @@ module.exports = function collectMessages(fileTraverser, onCollected, babelConfi
   });
 
   fileTraverser.on('end', () => onCollected(aggregatedMessages));
+
 };
