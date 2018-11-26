@@ -1,10 +1,10 @@
-import test from 'ava';
-import sinon from 'sinon';
+const assert = require('assert');
+const sinon = require('sinon');
 
-import { extractOnCollect } from '../src/extract';
+const { extractOnCollect } = require('../src/extract');
 
 // To be mocked
-import fs from 'fs';
+const fs = require('fs');
 
 const aggregatedMessages = [
   {
@@ -30,15 +30,16 @@ const expectedOutput =
 }
 `;
 
+describe('Extract', function() {
+  it('extracts messages to correct file structure', function() {
+    const writeFake = sinon.fake();
+    sinon.replace(fs, 'writeFileSync', writeFake);
+    sinon.stub(console, 'log');
+    extractOnCollect(aggregatedMessages, targetPath);
+    assert.ok(writeFake.calledWith(targetPath, expectedOutput, 'utf8'));
+  });
 
-test('extracts messages to correct file structure', t => {
-  const writeFake = sinon.fake();
-  sinon.replace(fs, 'writeFileSync', writeFake);
-  sinon.stub(console, 'log');
-  extractOnCollect(aggregatedMessages, targetPath);
-  t.true(writeFake.calledWith(targetPath, expectedOutput, 'utf-8'));
-});
-
-test.after('cleanup', t => {
-	sinon.restore();
+  after(function() {
+    sinon.restore();
+  });
 });

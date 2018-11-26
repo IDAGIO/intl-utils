@@ -16,7 +16,7 @@ function extractOnCollect(aggregatedMessages, targetPath) {
   fs.writeFileSync(
     targetPath,
     JSON.stringify(file, null, 2) + '\n',
-    'utf-8'
+    'utf8'
   );
   console.log(chalk`{green Successfully extracted messages to intl file!}`);
 }

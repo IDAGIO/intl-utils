@@ -30,13 +30,7 @@ Traverses all `.js` and `.jsx` files in your specified src directory and checks 
 $ intl-utils lint <path-to-src> <babel-config-path>
 ```
 ##### *babel-config-path*
-Both commands supports supplying a custom babel config. The default one looks like this:
-```js
-{
-  presets: ['es2015', 'stage-0', 'react'],
-  plugins: ['react-intl'],
-}
-```
+Both commands require you to pass a path to your preferred babel config. You need to pass the presets that you are using in your source code so that babel can parse it. `react-intl` will automatically be appended as a plugin to your config and `babel-plugin-react-intl` does not need to be installed by you.  
 #### Programming interface
 The utilities can also be used as part of another script:
 
