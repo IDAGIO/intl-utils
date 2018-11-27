@@ -1,7 +1,7 @@
 # @idagio/intl-utils
 This package acts as a wrapper around [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl) and exposes utility functions meant to make it easier to use in an automation workflow.
 
-You can read more about the background of this package [in this medium article](https://medium.com/@david_naas/a51ca600c430). The article explains this package's intended use and hot it's different from using the babel plugin directly.
+You can read more about the background of this package [in this medium article](https://medium.com/@david_naas/a51ca600c430). The article explains this package's intended use and how it's different from using the babel plugin directly.
 
 Also make sure to check out and follow the guidelines of [react-intl](https://github.com/yahoo/react-intl) and [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl).
 
@@ -46,7 +46,7 @@ lint('src', './.babelrc');
 ```
 
 ### CLI
-The package can also be used as a global CLI tool. The commands and arguments are completely analogous to the ones in the programming interface.
+The package can also be used as a CLI tool. The commands and arguments are completely analogous to the ones in the programming interface.
 ##### extract  
 ```
 $ intl-utils extract <path-to-src> <target-file-path> <babel-config-path>
