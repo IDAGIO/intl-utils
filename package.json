@@ -9,6 +9,18 @@
   },
   "author": "IDAGIO",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IDAGIO/intl-utils.git"
+  },
+  "keywords": [
+    "react-intl",
+    "babel-plugin-react-plugin",
+    "react",
+    "intl",
+    "i10n",
+    "l18n"
+  ],
   "engines": {
     "node": ">= 8.11.3"
   },
