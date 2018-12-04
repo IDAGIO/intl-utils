@@ -1,6 +1,6 @@
 {
   "name": "@idagio/intl-utils",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utilities for managing l10n of react apps",
   "main": "src/index.js",
   "scripts": {
