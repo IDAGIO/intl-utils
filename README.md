@@ -5,6 +5,10 @@ You can read more about the background of this package [in this medium article](
 
 Also make sure to check out and follow the guidelines of [react-intl](https://github.com/yahoo/react-intl) and [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl).
 
+## Babel
+- **1.x** works with Babel 7
+- **0.x** works with Babel 6
+
 ## Installation
 For global cli use only:
 ```
